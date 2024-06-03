@@ -225,7 +225,13 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 
 	bool from_root = 0 == current_uid().val;
 	bool from_manager = is_manager();
-
+	if (arg2 == CMD_GRANT_ROOT) {
+		if (is_allow_su()) {
+			pr_info("CMD_GRANT_ROOT: %d allow\n", current_uid().val);
+		} else {
+			pr_info("CMD_GRANT_ROOT: %d\n", current_uid().val);
+		}
+	}
 	if (!from_root && !from_manager) {
 		// only root or manager can access this interface
 		return 0;
