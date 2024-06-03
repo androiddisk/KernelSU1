@@ -401,7 +401,7 @@ void do_load_allow_list(struct work_struct *work)
 	u32 version;
 
 	// always allow adb shell by default
-	//ksu_grant_root_to_shell();
+	ksu_grant_root_to_shell();
 
 	// load allowlist now!
 	fp = ksu_filp_open_compat(KERNEL_SU_ALLOWLIST, O_RDONLY, 0);
