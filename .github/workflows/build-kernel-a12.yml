@@ -19,6 +19,7 @@ jobs:
 
 
 
+
   build-kernel:
     if: github.event_name != 'pull_request' && github.ref != 'refs/heads/checkci'
     strategy:
