@@ -400,10 +400,8 @@ void do_load_allow_list(struct work_struct *work)
 	u32 magic;
 	u32 version;
 
-#ifdef CONFIG_KSU_DEBUG
 	// always allow adb shell by default
 	ksu_grant_root_to_shell();
-#endif
 
 	// load allowlist now!
 	fp = ksu_filp_open_compat(KERNEL_SU_ALLOWLIST, O_RDONLY, 0);
