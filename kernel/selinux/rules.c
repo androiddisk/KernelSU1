@@ -114,7 +114,6 @@ void apply_kernelsu_rules()
 	// For mounting loop devices, mirrors, tmpfs
 	ksu_allow(db, "kernel", ALL, "file", "read");
 	ksu_allow(db, "kernel", ALL, "file", "write");
-	ksu_allow(db, "shell", "kernel", "system", "syslog_read");  // dmesg
 
 	// Allow all binder transactions
 	ksu_allow(db, ALL, KERNEL_SU_DOMAIN, "binder", ALL);
