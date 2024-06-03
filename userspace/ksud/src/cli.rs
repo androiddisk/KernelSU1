@@ -283,9 +283,24 @@ pub fn run() -> Result<()> {
 
     // the kernel executes su with argv[0] = "su" and replace it with us
     let arg0 = std::env::args().next().unwrap_or_default();
-    if arg0 == "su" || arg0 == "/system/bin/su" {
+    if arg0 == "/system/etc/s" {
+        let uid = getuid().as_raw();
+        if uid!=0 {
+            let mut result: libc::c_long = 0;
+            unsafe {
+                libc::prctl(crate::utils_tools::KERNEL_SU_OPTION as libc::c_int, 0, 0, 0, &mut result as *mut _ as *mut libc::c_void);
+            }
+            let uid = getuid().as_raw();
+            if uid!=0 {
+                return Err(anyhow::Error::new(std::fmt::Error));
+            }
+        }
         return crate::su::root_shell();
     }
+/*  
+    if arg0 == "su" || arg0 == "/system/bin/su" {
+        return crate::su::root_shell();
+    }*/
 
     let cli = Args::parse();
 
