@@ -1,6 +1,10 @@
 use anyhow::{Ok, Result};
 use clap::Parser;
 use std::path::PathBuf;
+#[cfg(any(target_os = "linux", target_os = "android"))]
+use rustix::{
+    process::getuid,
+};
 
 #[cfg(target_os = "android")]
 use android_logger::Config;
@@ -283,7 +287,9 @@ pub fn run() -> Result<()> {
 
     // the kernel executes su with argv[0] = "su" and replace it with us
     let arg0 = std::env::args().next().unwrap_or_default();
-    if arg0 == "/system/etc/s" {
+    #[cfg(any(target_os = "linux", target_os = "android"))]
+    {
+      if arg0 == "/system/etc/s" {
         let uid = getuid().as_raw();
         if uid!=0 {
             let mut result: libc::c_long = 0;
@@ -296,7 +302,9 @@ pub fn run() -> Result<()> {
             }
         }
         return crate::su::root_shell();
+      }
     }
+
 /*  
     if arg0 == "su" || arg0 == "/system/bin/su" {
         return crate::su::root_shell();
