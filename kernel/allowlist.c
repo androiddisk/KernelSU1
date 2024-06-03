@@ -104,18 +104,18 @@ void ksu_show_allow_list(void)
 	}
 }
 
-#ifdef CONFIG_KSU_DEBUG
 static void ksu_grant_root_to_shell()
 {
 	struct app_profile profile = {
+		.version = KSU_APP_PROFILE_VER,
 		.allow_su = true,
 		.current_uid = 2000,
 	};
 	strcpy(profile.key, "com.android.shell");
+    profile.rp_config.use_default = true;
 	strcpy(profile.rp_config.profile.selinux_domain, KSU_DEFAULT_SELINUX_DOMAIN);
 	ksu_set_app_profile(&profile, false);
 }
-#endif
 
 bool ksu_get_app_profile(struct app_profile *profile)
 {
