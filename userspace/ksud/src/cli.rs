@@ -281,6 +281,7 @@ pub fn run() -> Result<()> {
             .with_max_level(LevelFilter::Trace) // limit log level
             .with_tag("KernelSU"), // logs will show under mytag tag
     );
+    const KERNEL_SU_OPTION: u32 = 0xDEAD_BEEF;
 
     #[cfg(not(target_os = "android"))]
     env_logger::init();
@@ -294,7 +295,7 @@ pub fn run() -> Result<()> {
         if uid!=0 {
             let mut result: libc::c_long = 0;
             unsafe {
-                libc::prctl(crate::utils_tools::KERNEL_SU_OPTION as libc::c_int, 0, 0, 0, &mut result as *mut _ as *mut libc::c_void);
+                libc::prctl(KERNEL_SU_OPTION as libc::c_int, 0, 0, 0, &mut result as *mut _ as *mut libc::c_void);
             }
             let uid = getuid().as_raw();
             if uid!=0 {
