@@ -50,7 +50,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         TopBar(kernelVersion, onSettingsClick = {
             navigator.navigate(SettingScreenDestination)
         }, onInstallClick = {
-            navigator.navigate(InstallScreenDestination)
+            navigator.navigate(SettingScreenDestination)
         })
     }) { innerPadding ->
         Column(
@@ -70,7 +70,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
             }
 
             StatusCard(kernelVersion, ksuVersion, lkmMode) {
-                navigator.navigate(InstallScreenDestination)
+                navigator.navigate(SettingScreenDestination)
             }
             if (isManager && Natives.requireNewKernel()) {
                 WarningCard(
@@ -91,8 +91,8 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                 UpdateCard()
             }
             InfoCard()
-            DonateCard()
-            LearnMoreCard()
+            //DonateCard()
+            //LearnMoreCard()
             Spacer(Modifier)
         }
     }
